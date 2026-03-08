@@ -12,6 +12,7 @@ def check_temperature(temp_str: str) -> None:
 
 
 def test_temperature_input() -> None:
+    print("=== Garden Temperature Checker ===")
     tmp_test = input("Testing temperature: ")
     check_temperature(tmp_test)
     tmp_test = input("Testing temperature: ")
