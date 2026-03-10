@@ -1,4 +1,17 @@
-def check_temperature(temp_str: str) -> int | None:
+def check_temperature(temp_str):
+    """
+    Validates a temperature reading for agricultural safety.
+
+    Attempts to convert the input string to an integer and checks if it fails
+    within the safe range for plants (0°C to 40°C). Handles invalid numbers.
+
+    Args:
+        temp_str : The temperature input to validate.
+
+    Returns:
+        int: The valid temperature if it is between 0 and 40.
+        None: If the input is not a number or is out of the safe range.
+    """
     try:
         tmpe = int(temp_str)
         if 0 <= tmpe <= 40:
@@ -16,6 +29,7 @@ def check_temperature(temp_str: str) -> int | None:
 
 
 def test_temperature_input() -> None:
+    """this fct take an input and test our check_temperature fct"""
     print("=== Garden Temperature Checker ===")
     tmp_test = input("Testing temperature: ")
     check_temperature(tmp_test)

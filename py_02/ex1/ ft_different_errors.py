@@ -1,4 +1,5 @@
 def garden_operations(err_type):
+    """function creates different error scenarios"""
     if err_type == "bad_data":
         int("abc")
     elif err_type == "divide by zero":
@@ -11,6 +12,10 @@ def garden_operations(err_type):
 
 
 def test_error_types():
+    """
+    a fct that Catches each error type individually with
+    specific except blocks
+    """
     print("=== Garden Error Types Demo ===")
 
     print("\nTesting ValueError...")
@@ -47,5 +52,4 @@ def test_error_types():
 
 
 if __name__ == "__main__":
-    print("=== Garden Error Types Demo ===")
     test_error_types()

@@ -1,16 +1,26 @@
 class GardenError(Exception):
+    """a simple class that inherits from Exception"""
+
     pass
 
 
 class PlantError(GardenError):
+    """a simple class that inherits from GardenError"""
+
     pass
 
 
 class WaterError(GardenError):
+    """a simple class that inherits from GardenError"""
+
     pass
 
 
 def valide_age(plant_name, age):
+    """
+    this is a simple fct that valide if an age is not less then 0
+     logic valus if not its rais an error
+    """
     if age < 0:
         raise PlantError("Caught PlantError:")
     else:
@@ -18,6 +28,8 @@ def valide_age(plant_name, age):
 
 
 def valide_liter(plant_name, heurs):
+    """this is a simple fct that valide if watring heurs are valide if not it
+    rais an error"""
     if heurs < 1:
         raise WaterError("Caught WaterError:")
     else:
@@ -25,11 +37,17 @@ def valide_liter(plant_name, heurs):
 
 
 def garden_data(name, prix):
+    """this is a simple fct that raise an error if an plant prix is more
+    than 100dh"""
     if prix > 100:
         raise GardenError("Caught a garden error:")
 
 
-if __name__ == "__main__":
+def test_custom_errors():
+    """this is a fct that
+    • Shows catching specific custom error types (PlantError, WaterError)
+    • Demonstrates inheritance (catching GardenError catches all garden errors)
+    """
     print("=== Custom Garden Errors Demo ===")
     print("\nTesting PlantError...")
     try:
@@ -53,3 +71,7 @@ if __name__ == "__main__":
     except GardenError as e:
         print(f"{e}: what a poor plante need more water")
     print("\nAll custom error types work correctly!")
+
+
+if __name__ == "__main__":
+    test_custom_errors()
