@@ -6,6 +6,17 @@ if not sys.argv:
     print(f"Usage: python3 {sys.argv[0]} <item:quantity> <item:quantity> ...")
     sys.exit(1)
 
+
+def categories(inventory: dict) -> dict:
+    categorie = {"Moderate": {}, "Scarce": {}}
+    for key, value in inventory.items():
+        if value >= 5:
+            categorie["Moderate"].update({key: value})
+        else:
+            categorie["Scarce"].update({key: value})
+    return categorie
+
+
 try:
     args = sys.argv[1:]
     inventory_master = {}
@@ -31,6 +42,7 @@ print("\n=== Current Inventory ===")
 for key, value in inventory_master.items():
     print(f"{key}: {value} unit(s) ({(value*100) / sum_items:.1f}%)")
 
+
 print("\n=== Inventory Statistics ===")
 biggest_key = None
 biggest_value = None
@@ -53,3 +65,31 @@ for key, value in inventory_master.items():
         print(f"Least abundant: {key} ({value} unites)")
         break
 
+print("\n=== Item Categories ===")
+
+nested = categories(inventory_master)
+
+print(f"Moderate: {nested['Moderate']}")
+print(f"Scarce: {nested['Scarce']}")
+
+
+print("\n=== Management Suggestions ===")
+
+low_value = None
+low_key = None
+for key, value in inventory_master.items():
+    if low_value is None or value < low_value:
+        low_value = value
+        low_key = key
+Restock_needed = []
+for key, value in inventory_master.items():
+    if value == low_value:
+        Restock_needed += [key]
+print("Restock needed: ", end='')
+i = 0
+for x in Restock_needed:
+    print(x, end='')
+    i += 1
+    if i < len(Restock_needed):
+        print(",", end='')
+print('\n')
