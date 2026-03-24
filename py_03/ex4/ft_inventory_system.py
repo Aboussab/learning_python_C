@@ -92,4 +92,31 @@ for x in Restock_needed:
     i += 1
     if i < len(Restock_needed):
         print(",", end='')
-print('\n')
+
+
+print('\n=== Dictionary Properties Demo ===')
+
+print("Dictionary keys: ", end="")
+i = 0
+for key in inventory_master.keys():
+    print(key, end="")
+    i += 1
+    if i < len(inventory_master):
+        print(",", end='')
+
+print("\nDictionary values: ", end="")
+i = 0
+for value in inventory_master.values():
+    print(value, end="")
+    i += 1
+    if i < len(inventory_master):
+        print(", ", end='')
+
+print("\nSample lookup - ", end='')
+i = 0
+for key in inventory_master.keys():
+    i += 1
+    if key == 'sword':
+        print("'sword' in inventory: True")
+    elif i >= len(inventory_master):
+        print("'sword' in inventory: False")
