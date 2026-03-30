@@ -4,29 +4,38 @@ import sys
 def main() -> None:
     """
     this is a fct to discover more about list
-    we store it and organize it as a games scores:
-    Calculate some basic stats on this list and  Handle the udge case
+    we store list of arguments and organize it as a games scores:
+    Calculate some basic stats on this list and  Handle the udge cases
     """
-    player_list = []
-    try:
-        print("=== Player Score Analytics ===")
-        if len(sys.argv) > 1:
-            i = 1
-            while i < len(sys.argv):
-                player_list = player_list + [int(sys.argv[i])]
-                i += 1
-            print(f"Scores processed: {player_list}")
-            print(f"Total players: {len(player_list)}")
-            print(f"Total score: {sum(player_list)}")
-            print(f"Average score: {sum(player_list)/len(player_list)}")
-            print(f"High score: {max(player_list)}")
-            print(f"Low score: {min(player_list)}")
-            print(f"Score range: {max(player_list) - min(player_list)}")
-        else:
-            print("No scores provided. Usage: ", end="")
-            print("python3 ft_score_analytics.py <score1> <score2> ...")
-    except ValueError:
-        print("oops, you have an value error.")
+
+    print("=== Player Score Analytics ===")
+    player_list = sys.argv[1:]
+    if not player_list:
+        print("No scores provided. Usage: ", end="")
+        print("python3 ft_score_analytics.py <score1> <score2> ...")
+        return
+
+    scores = []
+    invalid = []
+
+    for arg in player_list:
+        try:
+            scores.append(int(arg))
+        except ValueError:
+            invalid.append(arg)
+    for inv in invalid:
+        print(f"Invalid parameter: '{inv}'")
+    if not scores:
+        print("No scores provided. Usage: ", end="")
+        print("python3 ft_score_analytics.py <score1> <score2> ...")
+        return
+    print(f"Scores processed: {scores}")
+    print(f"Total players: {len(scores)}")
+    print(f"Total score: {sum(scores)}")
+    print(f"Average score: {sum(scores)/len(scores)}")
+    print(f"High score: {max(scores)}")
+    print(f"Low score: {min(scores)}")
+    print(f"Score range: {max(scores) - min(scores)}")
 
 
 if __name__ == "__main__":
