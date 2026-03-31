@@ -1,52 +1,49 @@
 from typing import Generator
+import random
 
 
-def data_streams(i: int) -> Generator[list, None, None]:
+def gen_event() -> Generator[tuple]:
     """
-    Generate a simulated game event.
+        picks a random name from a list of players, and a random action from
+        a list of actions:
 
-    Args:
-        i (int): Index used to select a player and event cyclically.
-
-    Yields:
-        tuple[str, int, str]: A tuple containing:
-            - player name
-            - player level
-            - event description
+        Yields:
+            tuple[str, str]: A tuple containing:
+                - player name
+                - player level
+                - event description
     """
-    gamers = {
-        "alice": 5,
-        "bob": 12,
-        "charlie": 8}
+    players = ['Alice', 'Bob', 'Charlie', 'Dylan', 'Eve',
+               'Frank', 'Grace', 'Hank', 'Ivy', 'Jack']
 
-    events = ["killed monster", "found treasure", "leveled up"]
+    actions = ['skate', 'run', 'jump', 'swim', 'dance',
+               'sing', 'paint', 'code', 'read', 'sleep']
+    while True:
+        name = random.choice(players)
+        action = random.choice(actions)
+        yield (name, action)
 
-    players_names = list(gamers.keys())
-    name = players_names[i % len(players_names)]
-    level = gamers[name]
-    event = events[i % len(events)]
-    yield name, level, event
+
+def consume_event(old_list: list) -> Generator:
+    while True:
+        name = random.choice(old_list)
+        old_list.remove(name)
+        yield (name)
 
 
 print("=== Game Data Stream Processor ===")
-i = 0
-high_level = 0
-tr_event = 0
-level_up = 0
-while i < 3:
-    player_name, level, event = next(data_streams(i))
-    print(f"Event {i + 1}: Player {player_name} (level {level}) {event}")
-    if level > 10:
-        high_level += 1
-    if event == "found treasure":
-        tr_event += 1
-    if event == "leveled up":
-        level_up += 1
-    i += 1
 
-print("...\n=== Stream Analytics ===")
-print(f"Total events processed: {i}")
-print(f"High-level players (10+): {high_level}")
-print(f"Treasure events: {tr_event}")
-print(f"Level-up events: {level_up}")
-print("\n=== Generator Demonstration ===")
+# for x in range(1000):
+#     kol = next(gen_event())
+#     print(f"Event {x}: Player {kol[0]} did action {kol[1]}")
+
+list_often = []
+
+for x in range(10):
+    list_often.append(next(gen_event()))
+
+print(f"Built list of 10 events: {list_often}")
+
+for x in range(10):
+    print(f"Got event from list: {next(consume_event(list_often))}")
+    print(f"Remains in list: {list_often}")

@@ -1,122 +1,59 @@
 import sys
 
-
-if not sys.argv:
-    print("Error: No inventory items provided.")
-    print(f"Usage: python3 {sys.argv[0]} <item:quantity> <item:quantity> ...")
+try:
+    if not sys.argv[1:]:
+        print("Error: No inventory items provided.")
+        print(f"Usage: python3 {sys.argv[0]}\
+ <item:quantity> <item:quantity> ...")
+        sys.exit(1)
+except Exception:
     sys.exit(1)
 
-
-def categories(inventory: dict) -> dict:
-    categorie = {"Moderate": {}, "Scarce": {}}
-    for key, value in inventory.items():
-        if value >= 5:
-            categorie["Moderate"].update({key: value})
-        else:
-            categorie["Scarce"].update({key: value})
-    return categorie
-
-
-try:
-    args = sys.argv[1:]
-    inventory_master = {}
-    for arg in args:
-        kes_valu = arg.split(":")
-        if len(kes_valu) != 2:
-            print(f"Usage: python3 {sys.argv[0]} <item:quantity>"
-                  + "<item:quantity> ...")
-            sys.exit(1)
-        inventory_master[kes_valu[0]] = int(kes_valu[1])
-except (ValueError, IndexError):
-    print("there is actulley an errore.")
-sum_items = 0
-for x in inventory_master.values():
-    sum_items += x
+args = sys.argv[1:]
+inventory_master: dict[str, int] = {}
+invalid: list[str] = []
+cant_cast: list[str] = []
 
 print("=== Inventory System Analysis ===")
-print(f"Total items in inventory: {sum_items}")
-print(f"Unique item types: {len(inventory_master)}")
 
-print("\n=== Current Inventory ===")
+for arg in args:
+    kes_valu = arg.split(":")
+    if len(kes_valu) != 2:
+        invalid += kes_valu
+        continue
+    try:
+        if kes_valu[0] in inventory_master.keys():
+            print(f"Redundant item '{kes_valu[0]}' - discarding")
+            continue
+        inventory_master[kes_valu[0]] = int(kes_valu[1])
+    except (ValueError, IndexError):
+        cant_cast.append(kes_valu)
 
-for key, value in inventory_master.items():
-    print(f"{key}: {value} unit(s) ({(value*100) / sum_items:.1f}%)")
-
-
-print("\n=== Inventory Statistics ===")
-biggest_key = None
-biggest_value = None
-
-for key, value in inventory_master.items():
-    if biggest_value is None or value > biggest_value:
-        biggest_value = value
-        biggest_key = key
-for key, value in inventory_master.items():
-    if value == biggest_value:
-        print(f"Most abundant: {key} ({value} unites)")
-low_value = None
-low_key = None
-for key, value in inventory_master.items():
-    if low_value is None or value < low_value:
-        low_value = value
-        low_key = key
-for key, value in inventory_master.items():
-    if value == low_value:
-        print(f"Least abundant: {key} ({value} unites)")
-        break
-
-print("\n=== Item Categories ===")
-
-nested = categories(inventory_master)
-
-print(f"Moderate: {nested['Moderate']}")
-print(f"Scarce: {nested['Scarce']}")
+for x in invalid:
+    print(f"Error - invalid parameter '{x}'")
+for x in cant_cast:
+    print(f"Quantity error for {x[0]}: invalid literal for int()\
+with base 10: {x[1]}")
+print(f"Got inventory: {inventory_master}")
+print(f"Item list: {list(inventory_master.keys())}")
 
 
-print("\n=== Management Suggestions ===")
-
-low_value = None
-low_key = None
-for key, value in inventory_master.items():
-    if low_value is None or value < low_value:
-        low_value = value
-        low_key = key
-Restock_needed = []
-for key, value in inventory_master.items():
-    if value == low_value:
-        Restock_needed += [key]
-print("Restock needed: ", end='')
-i = 0
-for x in Restock_needed:
-    print(x, end='')
-    i += 1
-    if i < len(Restock_needed):
-        print(",", end='')
+sum_items = sum(inventory_master.values())
+print(f"Total quantity of the {len(inventory_master)} items: {sum_items}")
 
 
-print('\n=== Dictionary Properties Demo ===')
+most: str | None = None
+least: str | None = None
+for item in inventory_master.keys():
+    if most is None or inventory_master[item] > inventory_master[most]:
+        most = item
+    if least is None or inventory_master[item] < inventory_master[least]:
+        least = item
+    percentage = round((inventory_master[item] / sum_items) * 100, 1)
+    print(f"Item {item} represents {percentage}%")
+print(f"Item most abundant: {most} with quantity {inventory_master[most]}")
+print(f"Item least abundant: {least} with quantity {inventory_master[least]}")
 
-print("Dictionary keys: ", end="")
-i = 0
-for key in inventory_master.keys():
-    print(key, end="")
-    i += 1
-    if i < len(inventory_master):
-        print(",", end='')
 
-print("\nDictionary values: ", end="")
-i = 0
-for value in inventory_master.values():
-    print(value, end="")
-    i += 1
-    if i < len(inventory_master):
-        print(", ", end='')
-
-print("\nSample lookup - ", end='')
-i = 0
-for key in inventory_master.keys():
-    i += 1
-    if key == 'sword':
-        print("'sword' in inventory: True")
-    elif i >= len(inventory_master):
-        print("'sword' in inventory: False")
+inventory_master.update({'magic_item': 1})
+print(f"Updated inventory: {inventory_master}")
