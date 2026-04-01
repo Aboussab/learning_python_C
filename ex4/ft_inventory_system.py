@@ -1,4 +1,6 @@
 import sys
+from typing import List, Tuple
+
 
 try:
     if not sys.argv[1:]:
@@ -11,8 +13,8 @@ except Exception:
 
 args = sys.argv[1:]
 inventory_master: dict[str, int] = {}
-invalid: list[str] = []
-cant_cast: list[str] = []
+invalid: List[str] = []
+cant_cast: List[Tuple[str, str]] = []
 
 print("=== Inventory System Analysis ===")
 
@@ -27,13 +29,13 @@ for arg in args:
             continue
         inventory_master[kes_valu[0]] = int(kes_valu[1])
     except (ValueError, IndexError):
-        cant_cast.append(kes_valu)
+        cant_cast.append((kes_valu[0], kes_valu[1]))
 
 for x in invalid:
     print(f"Error - invalid parameter '{x}'")
-for x in cant_cast:
-    print(f"Quantity error for {x[0]}: invalid literal for int()\
-with base 10: {x[1]}")
+for name in cant_cast:
+    print(f"Quantity error for {name[0]}: invalid literal for int()\
+with base 10: {name[1]}")
 print(f"Got inventory: {inventory_master}")
 print(f"Item list: {list(inventory_master.keys())}")
 
@@ -51,8 +53,10 @@ for item in inventory_master.keys():
         least = item
     percentage = round((inventory_master[item] / sum_items) * 100, 1)
     print(f"Item {item} represents {percentage}%")
-print(f"Item most abundant: {most} with quantity {inventory_master[most]}")
-print(f"Item least abundant: {least} with quantity {inventory_master[least]}")
+if most and least:
+    print(f"Item most abundant: {most} with quantity {inventory_master[most]}")
+    print(f"Item least abundant: {least}\
+with quantity {inventory_master[least]}")
 
 
 inventory_master.update({'magic_item': 1})

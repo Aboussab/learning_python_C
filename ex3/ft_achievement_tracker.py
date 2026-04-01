@@ -17,9 +17,9 @@ def gen_player_achievements() -> set:
       'Treasure Hunter', 'First Steps', 'Shiny Collector',
       'Sharp Eyes', 'First Hope', 'Hidden Path Finder'
     ]
-    number_acheivment = random.randint(1, len(achievements_list))   
+    number_acheivment = random.randint(1, len(achievements_list))
     choosen = random.sample(achievements_list, number_acheivment)
-    too_sent = set()
+    too_sent: set = set()
     for ach in choosen:
         too_sent = too_sent.union({ach})
     return too_sent

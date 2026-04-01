@@ -9,7 +9,7 @@ def Euclidean_distance(p1: tuple, p2: tuple) -> float:
     return round(math.sqrt(n), 4)
 
 
-def get_player_pos() -> None:
+def get_player_pos() -> tuple:
     """
     get_player_pos is a fct that  Asks the user for the new player
     coordinates in the format x,y,z:
