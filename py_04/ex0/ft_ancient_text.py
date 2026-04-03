@@ -1,17 +1,21 @@
-
-print("=== CYBER ARCHIVES - DATA RECOVERY SYSTEM ===")
-filename = "ancient_fragment.txt"
-print()
-print(f"Accessing Storage Vault: {filename}\nConnection established...")
-
-file = open("ancient_fragment.txt", "r")
+import sys
+import typing
+print("=== Cyber Archives Recovery ===")
+filename: str | None = None
+file: typing.IO | None = None
 try:
-    file = open(filename)
-except FileNotFoundError:
-    print("ERROR: Storage vault not found. Run data generator first.")
-    exit(0)
-
-content = file.read()
-print(content)
-print()
-print("Data recovery complete. Storage unit disconnected")
+    filename = sys.argv[1]
+    print(f"Accessing file '{filename}'")
+    file = open(filename, "r")
+    print("---\n")
+    content: str = file.read()
+    print(content)
+    print("\n---")
+except IndexError:
+    print(f"Usage: {sys.argv[0]} <file>")
+except Exception as e:
+    print(f"Error opening file '{filename}': {e}")
+finally:
+    if file is not None:
+        file.close()
+        print(f"File '{filename}' closed.")

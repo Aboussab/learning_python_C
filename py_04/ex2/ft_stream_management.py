@@ -19,12 +19,12 @@ try:
     if file is not None:
         file.close()
         print(f"File '{filename}' closed.")
-
     print("Transform data:\n---\n")
     print(content)
     print("\n---\n")
-
-    new_file = input("Enter new file name (or empty):")
+    sys.stdout.write("Enter new file name (or empty):")
+    sys.stdout.flush()
+    new_file = sys.stdin.readline().strip()
     if new_file == "":
         x = 5/0
     file2 = open(new_file, "w")
@@ -33,8 +33,8 @@ try:
     print(f"Data saved in file {new_file}")
     file2.close()
 except IndexError:
-    print(f"Usage: {sys.argv[0]} <file>")
+    sys.stderr.write(f"Usage: {sys.argv[0]} <file>")
 except ZeroDivisionError:
-    print("Not saving data.")
+    sys.stderr.write("Not saving data.")
 except Exception as e:
-    print(f"Error opening file '{filename}': {e}")
+    sys.stderr.write(f"Error opening file '{filename}': {e}")
