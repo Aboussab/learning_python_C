@@ -100,3 +100,48 @@ class LogProcessor(DataProcessor):
         else:
             raise ValueError("Improper text data")
 
+
+class DataStream():
+    def __init__(self):
+        self._processors: list[DataProcessor] = []
+    
+    def register_processor(self, proc: DataProcessor) -> None:
+        self._processors.append(proc)
+    
+    def process_stream(self, stream: list[Any]) -> None:
+        for x in stream:
+            flaf: bool = False
+            for y in self._processors:
+                if y.validate(x):
+                    y.ingest(x)
+                    flaf = True
+                    break
+            if not flaf:
+                print(f"DataStream error - Can't process element in stream: {x}")
+    
+    def print_processors_stats(self) -> None:
+        for x in self._processors:
+            name = type(x).__name__
+            extracted = x._rank
+            witing = len(x._data_holder)
+            print(f"{name}: total {extracted} items processed, remaining {witing} on processor")
+
+
+stream = DataStream()
+data = ['Hello world', [3.14, -1, 2.71],
+        [{'log_level': 'WARNING', 'log_message': 'Telnet access! Use ssh instead'},
+         {'log_level': 'INFO', 'log_message': 'User wil is connected'}],
+         42, ['Hi', 'five']
+         ]
+text_p = TextProcessor()
+numeric_p = NumericProcessor()
+log_p = LogProcessor()
+
+
+stream.register_processor(numeric_p)
+
+stream.process_stream(data)
+
+stream.register_processor(text_p)
+stream.register_processor(log_p)
+
