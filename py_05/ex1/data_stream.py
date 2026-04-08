@@ -121,18 +121,24 @@ class DataStream():
 Can't process element in stream: {x}")
 
     def print_processors_stats(self) -> None:
-        for x in self._processors:
-            name = type(x).__name__
-            extracted = x._rank
-            witing = len(x._data_holder)
-            print(f"{name}: total {extracted} \
+        if len(self._processors) == 0:
+            print("No processor found, no data")
+        else:
+            for x in self._processors:
+                name = type(x).__name__
+                extracted = x._rank
+                witing = len(x._data_holder)
+                print(f"{name}: total {extracted} \
 items processed, remaining {witing} on processor")
 
 
-print("=== Code Nexus - Data Stream ===")
+print("=== Code Nexus - Data Stream ===\n")
+
 print("Initialize Data Stream...")
 stream = DataStream()
-print("Registering Numeric Processor\n")
+print("== DataStream statistics ==")
+stream.print_processors_stats()
+print("\nRegistering Numeric Processor\n")
 numeric_p = NumericProcessor()
 stream.register_processor(numeric_p)
 data = ['Hello world', [3.14, -1, 2.71],
@@ -154,7 +160,7 @@ print("Send the same batch again")
 stream.process_stream(data)
 print("== DataStream statistics ==")
 stream.print_processors_stats()
-print("Consume some elements from the data \
+print("\nConsume some elements from the data \
 processors: Numeric 3, Text 2, Log 1")
 
 numeric_p.output()
