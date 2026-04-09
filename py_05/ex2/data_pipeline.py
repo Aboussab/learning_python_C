@@ -123,12 +123,11 @@ class LogProcessor(DataProcessor):
         if self.validate(data):
             if isinstance(data, list):
                 for x in data:
-                    for k, v in x.items():
-                        stro = str(f"{str(k)}: {str(v)}")
-                        self._data_holder += [str(stro)]
+                    stro = ": ".join(x.values())
+                    self._data_holder += [stro]
             else:
-                for k, v in data.items():
-                    stro = str(f"{str(k)}: {str(v)}")
+                for x in data:
+                    stro = ": ".join(x.values())
                     self._data_holder += [stro]
         else:
             raise ValueError("Improper text data")
@@ -167,8 +166,11 @@ items processed, remaining {witing} on processor")
     def output_pipeline(self, nb: int, plugin: ExportPlugin) -> None:
         for x in self._processors:
             big_list = []
-            for i in range(nb):
-                big_list.append(x.output())
+            try:
+                for i in range(nb):
+                    big_list.append(x.output())
+            except IndexError:
+                pass
             plugin.process_output(big_list)
 
 
@@ -184,22 +186,23 @@ numeric_p = NumericProcessor()
 stream.register_processor(numeric_p)
 stream.register_processor(text_p)
 stream.register_processor(log_p)
-print("Registering Processors")
+print("\nRegistering Processors")
 
 data = ['Hello world', [3.14, -1, 2.71],
         [{'log_level': 'WARNING',
           'log_message': 'Telnet access! Use ssh instead'},
         {'log_level': 'INFO', 'log_message': 'User wil is connected'}],
         42, ['Hi', 'five']]
-print(f"Send first batch of data on stream: {data}")
+
+print(f"\nSend first batch of data on stream: {data}")
 stream.process_stream(data)
-print("== DataStream statistics ==")
+print("\n== DataStream statistics ==")
 stream.print_processors_stats()
-print("Send 3 processed data from each processor to a CSV plugin:")
+print("\nSend 3 processed data from each processor to a CSV plugin:")
 csv = CSV()
 stream.output_pipeline(3, csv)
 
-print("== DataStream statistics ==")
+print("\n== DataStream statistics ==")
 stream.print_processors_stats()
 
 data1: list[any] = [21,
@@ -208,11 +211,13 @@ data1: list[any] = [21,
                      {'log_level': 'NOTICE', 'log_message':
                       'Certificate expires in 10 days'}],
                     [32, 42, 64, 84, 128, 168], 'World hello']
+print(f"\nSend another batch of data: {data1}")
+
 stream.process_stream(data1)
-print("== DataStream statistics ==")
+print("\n== DataStream statistics ==")
 stream.print_processors_stats()
-print("Send 5 processed data from each processor to a JSON plugin:")
+print("\nSend 5 processed data from each processor to a JSON plugin:")
 json = JSON()
 stream.output_pipeline(5, json)
-print("== DataStream statistics ==")
+print("\n== DataStream statistics ==")
 stream.print_processors_stats()
