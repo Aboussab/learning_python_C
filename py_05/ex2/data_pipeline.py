@@ -76,12 +76,12 @@ class NumericProcessor(DataProcessor):
     def ingest(self, data: int | float | list[int | float]) -> None:
         if self.validate(data):
             if isinstance(data, list):
-                data = [str(x) for x in data]
-                for x in data:
+                data2: list[str] = [str(x) for x in data]
+                for x in data2:
                     self._data_holder.append(x)
             else:
-                data = str(data)
-                self._data_holder.append(data)
+                data3: str = str(data)
+                self._data_holder.append(data3)
         else:
             raise ValueError("Improper numeric data")
 
@@ -119,16 +119,15 @@ class LogProcessor(DataProcessor):
         else:
             return False
 
-    def ingest(self, data: dict[str: str] | list[dict[str, str]]) -> None:
+    def ingest(self, data: dict[str, str] | list[dict[str, str]]) -> None:
         if self.validate(data):
             if isinstance(data, list):
                 for x in data:
-                    stro = ": ".join(x.values())
+                    stro: str = ": ".join(x.values())
                     self._data_holder += [stro]
             else:
-                for x in data:
-                    stro = ": ".join(x.values())
-                    self._data_holder += [stro]
+                stro2: str = ": ".join(data.values())
+                self._data_holder += [stro2]
         else:
             raise ValueError("Improper text data")
 
@@ -205,7 +204,7 @@ stream.output_pipeline(3, csv)
 print("\n== DataStream statistics ==")
 stream.print_processors_stats()
 
-data1: list[any] = [21,
+data1: list[Any] = [21,
                     ['I love AI', 'LLMs are wonderful', 'Stay healthy'],
                     [{'log_level': 'ERROR', 'log_message': '500 server crash'},
                      {'log_level': 'NOTICE', 'log_message':
