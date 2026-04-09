@@ -1,5 +1,38 @@
 from abc import ABC, abstractmethod
-from typing import Any
+from typing import Any, Protocol
+
+
+class ExportPlugin(Protocol):
+    def process_output(self, data: list[tuple[int, str]]) -> None:
+        pass
+
+
+class CSV():
+    def process_output(self, data: list[tuple[int, str]]) -> None:
+        phrase: str = ""
+        i: int = 0
+        print("CSV Output:")
+        for x in data:
+            phrase += str(x[1])
+            i += 1
+            if i != len(data):
+                phrase += ","
+        print(phrase)
+
+
+class JSON():
+    def process_output(self, data: list[tuple[int, str]]) -> None:
+        print("JSON Output:")
+        phrase: str = "{"
+        i: int = 0
+        for x in data:
+            phrase += f'"item_{str(x[0])}": "{str(x[1])}"'
+            i += 1
+            if i != len(data):
+                phrase += ","
+            else:
+                phrase += "}"
+        print(phrase)
 
 
 class DataProcessor(ABC):
@@ -131,16 +164,28 @@ Can't process element in stream: {x}")
                 print(f"{name}: total {extracted} \
 items processed, remaining {witing} on processor")
 
+    def output_pipeline(self, nb: int, plugin: ExportPlugin) -> None:
+        for x in self._processors:
+            big_list = []
+            for i in range(nb):
+                big_list.append(x.output())
+            plugin.process_output(big_list)
 
-print("=== Code Nexus - Data Stream ===\n")
 
-print("Initialize Data Stream...")
+print("=== Code Nexus - Data Pipeline ===\n")
+print("Initialize Data Stream...\n")
 stream = DataStream()
 print("== DataStream statistics ==")
-stream.print_processors_stats()
-print("\nRegistering Numeric Processor\n")
+print("No processor found, no data")
+
+text_p = TextProcessor()
+log_p = LogProcessor()
 numeric_p = NumericProcessor()
 stream.register_processor(numeric_p)
+stream.register_processor(text_p)
+stream.register_processor(log_p)
+print("Registering Processors")
+
 data = ['Hello world', [3.14, -1, 2.71],
         [{'log_level': 'WARNING',
           'log_message': 'Telnet access! Use ssh instead'},
@@ -149,28 +194,25 @@ data = ['Hello world', [3.14, -1, 2.71],
 print(f"Send first batch of data on stream: {data}")
 stream.process_stream(data)
 print("== DataStream statistics ==")
-
 stream.print_processors_stats()
-print("\nRegistering other data processors")
-text_p = TextProcessor()
-log_p = LogProcessor()
-stream.register_processor(text_p)
-stream.register_processor(log_p)
-print("Send the same batch again")
-stream.process_stream(data)
+print("Send 3 processed data from each processor to a CSV plugin:")
+csv = CSV()
+stream.output_pipeline(3, csv)
+
 print("== DataStream statistics ==")
 stream.print_processors_stats()
-print("\nConsume some elements from the data \
-processors: Numeric 3, Text 2, Log 1")
 
-numeric_p.output()
-numeric_p.output()
-numeric_p.output()
-
-text_p.output()
-text_p.output()
-
-log_p.output()
-
+data1: list[any] = [21,
+                    ['I love AI', 'LLMs are wonderful', 'Stay healthy'],
+                    [{'log_level': 'ERROR', 'log_message': '500 server crash'},
+                     {'log_level': 'NOTICE', 'log_message':
+                      'Certificate expires in 10 days'}],
+                    [32, 42, 64, 84, 128, 168], 'World hello']
+stream.process_stream(data1)
+print("== DataStream statistics ==")
+stream.print_processors_stats()
+print("Send 5 processed data from each processor to a JSON plugin:")
+json = JSON()
+stream.output_pipeline(5, json)
 print("== DataStream statistics ==")
 stream.print_processors_stats()
