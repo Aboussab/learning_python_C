@@ -1,5 +1,5 @@
-import alchemy.elements as e
+import alchemy.elements
 
 print("=== Alembic 2 ===")
 print("Accessing alchemy/elements.py using 'import ...' structure")
-print(f"Testing create_earth: {e.create_earth()}")
+print(f"Testing create_earth: {alchemy.elements.create_earth()}")
