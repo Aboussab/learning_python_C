@@ -1,23 +1,45 @@
 from abc import ABC, abstractmethod
+from ex1.capabilities import HealCapability, TransformCapability
 
 
 class BattleStrategy(ABC):
     @abstractmethod
-    def act():
+    def is_valid(self, creature) -> bool:
         pass
 
     @abstractmethod
-    def is_valid() -> bool:
+    def act(self, creature) -> None:
         pass
 
 
 class NormalStrategy(BattleStrategy):
-    pass
+    def is_valid(self, creature) -> bool:
+        return True
+
+    def act(self, creature) -> None:
+        print(creature.attack())
 
 
 class AggressiveStrategy(BattleStrategy):
-    pass
+    def is_valid(self, creature) -> bool:
+        return isinstance(creature, TransformCapability)
+
+    def act(self, creature) -> None:
+        if not self.is_valid(creature):
+            raise Exception(f"Invalid Creature '{creature.name}'\
+ for this aggressive strategy")
+        print(creature.transform())
+        print(creature.attack())
+        print(creature.revert())
 
 
 class DefensiveStrategy(BattleStrategy):
-    pass
+    def is_valid(self, creature) -> bool:
+        return isinstance(creature, HealCapability)
+
+    def act(self, creature) -> None:
+        if not self.is_valid(creature):
+            raise Exception(f"Invalid Creature '{creature.name}'\
+ for this defensive strategy")
+        print(creature.attack())
+        print(creature.heal())
