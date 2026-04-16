@@ -8,19 +8,6 @@ class HealCapability(ABC):
         pass
 
 
-class TransformCapability(ABC):
-    def __init__(self):
-        self.transformed = False
-
-    @abstractmethod
-    def transform():
-        pass
-
-    @abstractmethod
-    def revert():
-        pass
-
-
 class Sproutling(Creature, HealCapability):
     def __init__(self):
         super().__init__("Sproutling", "Grass")
@@ -41,6 +28,19 @@ class Bloomelle(Creature, HealCapability):
 
     def heal(self) -> str:
         return f"{self.name} heals itself and others for a large amount"
+
+
+class TransformCapability(ABC):
+    def __init__(self):
+        self.transformed = False
+
+    @abstractmethod
+    def transform():
+        pass
+
+    @abstractmethod
+    def revert():
+        pass
 
 
 class Shiftling(Creature, TransformCapability):
