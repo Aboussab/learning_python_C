@@ -39,7 +39,7 @@ class TransformCapability(ABC):
         pass
 
     @abstractmethod
-    def revert(self):
+    def revert(self1):
         pass
 
 
