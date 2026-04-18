@@ -1,0 +1,54 @@
+# Byte-compiled / optimized / DLL files
+
+**pycache**/
+*.py[cod]
+*.pyo
+*.pyd
+
+# Virtual environments
+
+venv/
+env/
+matrix_env/
+.venv/
+
+# Environment variables (SECRETS!)
+
+.env
+
+# Python packaging
+
+*.egg-info/
+dist/
+build/
+
+# Logs
+
+*.log
+
+# OS files
+
+.DS_Store
+Thumbs.db
+
+# IDE / Editor
+
+.vscode/
+.idea/
+
+# Jupyter Notebook checkpoints
+
+.ipynb_checkpoints/
+
+# Matplotlib output (optional if generated)
+
+*.png
+
+# Poetry
+
+poetry.lock
+
+# Misc
+
+*.swp
+*~
