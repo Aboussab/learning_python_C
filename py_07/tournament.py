@@ -1,5 +1,5 @@
-from ex0.factory import FlameFactory, AquaFactory
-from ex1.factoryes import HealingCreatureFactory, TransformCreatureFactory
+from ex0 import FlameFactory, AquaFactory
+from ex1 import HealingCreatureFactory, TransformCreatureFactory
 from ex2 import NormalStrategy, AggressiveStrategy, DefensiveStrategy
 
 
