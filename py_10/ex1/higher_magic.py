@@ -29,3 +29,46 @@ def spell_sequence(spells: list[Callable]) -> Callable:
             return_list.append(x(target, power))
         return return_list
     return iter_spells
+
+
+def check_condition(target: str, power: int) -> bool:
+    if power > 15:
+        return True
+    else:
+        return False
+
+
+def heal(target: str, power: int) -> str:
+    return f"Heal {target} with {power}"
+
+
+def hits(target: str, power: int) -> str:
+    return f"Fireball hits {target}"
+
+
+def main() -> None:
+    print("\nTesting spell combiner...")
+    fct = spell_combiner(hits, heal)
+    fct_return = fct("Dragon", 15)
+    print(f"Combined spell result: {fct_return[0]}, {fct_return[1]}")
+
+    print("\nTesting spell combiner...")
+    originale = 10
+    multiplied = 3
+    power_test = power_amplifier(heal, 3)
+    power_test("dragone", 10)
+    print(f"Original: {originale}, Amplified: {multiplied * originale}")
+
+    print("\nTesting conditional caster...")
+    condition_test = conditional_caster(check_condition, heal)
+    print(condition_test("dragone", 15))
+
+    print("\nTesting spell sequence...")
+    test_sequence = spell_sequence([heal, hits])
+    print(test_sequence("dragon", 150))
+
+
+try:
+    main()
+except Exception:
+    print("somthing went wrong!!")
