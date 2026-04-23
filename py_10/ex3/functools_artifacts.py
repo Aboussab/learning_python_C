@@ -20,7 +20,7 @@ def spell_reducer(spells: list[int], operation: str) -> int:
             raise ValueError("error! operetore not found.")
 
 
-def partial_enchanter(base_enchantment: Callable) -> dict[str, Callable]:
+def partial_enchanter(base_enchantment: Callable) -> (dict[str, partial[Any]]):
     base_dic = {}
     base_dic["fire"] = partial(base_enchantment, power=50, element="fire")
     base_dic["ice"] = partial(base_enchantment, power=50, element="ice")
@@ -79,7 +79,7 @@ def main():
     print("\nTesting spell dispatcher...")
     test_fct = spell_dispatcher()
     print(f"Damage spell: {test_fct(42)}")
-    print(f"Enchantment: {test_fct("fireball")}")
+    print(f"Enchantment: {test_fct('fireball')}")
     enchantment_types = ['Radiant', 'Frozen', 'Earthen']
     print(f"Damage spell: {test_fct(enchantment_types)}")
     print(f"{test_fct(0.5)}")

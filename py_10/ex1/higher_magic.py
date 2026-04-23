@@ -1,8 +1,9 @@
 from collections.abc import Callable
+from typing import Any
 
 
 def spell_combiner(spell1: Callable, spell2: Callable) -> Callable:
-    def combeine(target: str, power: int) -> str:
+    def combeine(target: str, power: int) -> tuple[Any, Any]:
         return (spell1(target, power), spell2(target, power))
     return combeine
 
@@ -23,7 +24,7 @@ def conditional_caster(condition: Callable, spell: Callable) -> Callable:
 
 
 def spell_sequence(spells: list[Callable]) -> Callable:
-    def iter_spells(target: str, power: int) -> str:
+    def iter_spells(target: str, power: int) -> list[Any]:
         return_list = []
         for x in spells:
             return_list.append(x(target, power))
@@ -52,7 +53,7 @@ def main() -> None:
     fct_return = fct("Dragon", 15)
     print(f"Combined spell result: {fct_return[0]}, {fct_return[1]}")
 
-    print("\nTesting spell combiner...")
+    print("\nTesting power amplifier...")
     originale = 10
     multiplied = 3
     power_test = power_amplifier(heal, 3)

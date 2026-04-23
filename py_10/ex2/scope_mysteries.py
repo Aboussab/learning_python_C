@@ -55,10 +55,10 @@ def main():
     print(f"Base 100, add 30: {base(30)}")
 
     print("\nTesting enchantment factory...")
-    flaming_outer = enchantment_factory("flaming")
-    print(f"{flaming_outer("Sword")}")
-    frozen_outer = enchantment_factory("Frozen")
-    print(f"{frozen_outer("Shield")}")
+    flaming_outer = enchantment_factory('flaming')
+    print(f"{flaming_outer('Sword')}")
+    frozen_outer = enchantment_factory('Frozen')
+    print(f"{frozen_outer('Shield')}")
 
     print("\nTesting memory vault...")
     outer = memory_vault()
@@ -66,8 +66,8 @@ def main():
     recalli = outer["recall"]
     stori("secret", 42)
     print("Store 'secret' = 42")
-    print(f"Recall 'secret': {recalli("secret")}")
-    print(f"Recall 'unknown': {recalli("unknown")}")
+    print(f"Recall 'secret': {recalli('secret')}")
+    print(f"Recall 'unknown': {recalli('unknown')}")
 
 
 try:

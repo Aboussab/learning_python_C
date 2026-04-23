@@ -34,18 +34,17 @@ def main() -> None:
     try:
         print("Testing artifact sorter...")
         sorted_artifacts = artifact_sorter(artifacts)
-        print(f"{sorted_artifacts[0]['name']}\
-({sorted_artifacts[0]['power']} power) comes before\
+        print(f"{sorted_artifacts[0]['name']} \
+({sorted_artifacts[0]['power']} power) comes before \
 {sorted_artifacts[1]['name']} ({sorted_artifacts[1]['power']} power)")
         print("\nTesting power filter...")
         print(f"those are biger then 90: {power_filter(artifacts, 90)}")
+        print(f"those are biger then 60: {power_filter(artifacts, 60)}")
         print("\nTesting mage stats...")
         print(mage_stats(mages))
         print("\nTesting spell transformer...")
         transformed = spell_transformer(spells)
         print(" ".join(transformed))
-
-        print("\nTesting ...")
     except Exception:
         print("somthings went wrong!!!!")
 
