@@ -92,14 +92,14 @@ class Vegetable(Plant):
         print(f"{self.name} is rich in {self.nutritional_value}")
 
 
-rose = Flower("Rose", 25, 15, "red")
-rose.get_info()
-rose.bloom()
-
-print("\n")
-oke = Tree("Oak", 500, 1825, 50)
-oke.get_info()
-oke.produce_shade()
-print("\n")
-tomate = Vegetable("Tomato", 80, 90, "summer", "vitamine C")
-tomate.get_info()
+if __name__ == "__main__":
+    rose = Flower("Rose", 25, 15, "red")
+    rose.get_info()
+    rose.bloom()
+    print("\n")
+    oke = Tree("Oak", 500, 1825, 50)
+    oke.get_info()
+    oke.produce_shade()
+    print("\n")
+    tomate = Vegetable("Tomato", 80, 90, "summer", "vitamine C")
+    tomate.get_info()

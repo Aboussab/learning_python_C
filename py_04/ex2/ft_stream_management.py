@@ -37,4 +37,4 @@ except IndexError:
 except ZeroDivisionError:
     sys.stderr.write("Not saving data.")
 except Exception as e:
-    sys.stderr.write(f"Error opening file '{filename}': {e}")
+    sys.stderr.write(f"[STDERR] Error opening file '{filename}': {e}")

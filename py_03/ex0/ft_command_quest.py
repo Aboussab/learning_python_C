@@ -1,10 +1,6 @@
 import sys
 
 if __name__ == "__main__":
-    """
-    this is a simple programe where we discover how to read
-    argumentsfrom the terminal and use it display it ..,
-    """
 
     print("=== Command Quest ===")
     c = len(sys.argv)

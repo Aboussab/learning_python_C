@@ -3,15 +3,15 @@ import os
 import site
 
 
-def is_venv():
+def is_venv() -> bool:
     return sys.prefix != sys.base_prefix
 
 
-def env_name():
+def env_name() -> str:
     return os.path.basename(sys.prefix)
 
 
-def main():
+def main() -> None:
     print("MATRIX STATUS:", end=" ")
 
     if is_venv():
@@ -50,4 +50,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-    print(f"\n\n\n{sys.prefix}")

@@ -33,9 +33,9 @@ def consume_event(old_list: list) -> Generator:
 
 print("=== Game Data Stream Processor ===")
 
-# for x in range(1000):
-#     kol = next(gen_event())
-#     print(f"Event {x}: Player {kol[0]} did action {kol[1]}")
+for x in range(1000):
+    kol = next(gen_event())
+    print(f"Event {x}: Player {kol[0]} did action {kol[1]}")
 
 list_often = []
 

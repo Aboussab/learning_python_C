@@ -1,7 +1,7 @@
 from typing import Tuple
 
 
-def secure_archive(fname: str, order: str, content: str | None) -> Tuple[bool , str]:
+def secure_archive(fname: str, order: str, content: str | None) -> Tuple:
     flage: bool = False
     sentense: str = ""
     try:
@@ -16,10 +16,11 @@ def secure_archive(fname: str, order: str, content: str | None) -> Tuple[bool , 
     except FileNotFoundError:
         sentense = "[Errno 2] No such file or directory: " + fname
     except PermissionError:
-        sentense = "[Errno 13] Permission denied: " +fname
-    except Exception as e:
-        sentense = e
+        sentense = "[Errno 13] Permission denied: " + fname
+    except Exception:
+        sentense = "there is undefined"
     return tuple([flage, sentense])
+
 
 print("=== Cyber Archives Security ===")
 print("Using 'secure_archive' to read from a nonexistent file:")
